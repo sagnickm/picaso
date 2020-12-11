@@ -162,6 +162,7 @@ def spectrum(xarray, yarray,legend=None,wno_to_micron=True, palette = Colorblind
     i = 0
     for yarray in Y:
         if isinstance(xarray, list):
+            #import IPython; IPython.embed()
             if isinstance(legend,type(None)): legend=[None]*len(xarray[0])
             for w, a,i,l in zip(xarray, yarray, range(len(xarray)), legend):
                 if l == None: 
@@ -174,6 +175,7 @@ def spectrum(xarray, yarray,legend=None,wno_to_micron=True, palette = Colorblind
             else:
                 fig.line(conv(xarray), yarray, legend_label=legend, color=palette[i], line_width=3)
         i = i+1
+
     plot_format(fig)
     return fig
 
