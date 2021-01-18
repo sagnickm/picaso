@@ -113,7 +113,7 @@ def pt(full_output,ng=None, nt=None, **kwargs):
     plot_format(fig)
     return fig
 
-def spectrum(xarray, yarray,legend=None,wno_to_micron=True, palette = Colorblind8, **kwargs):
+def spectrum(xarray, yarray,legend=None,wno_to_micron=True, palette = Colorblind8, color_indx=0,**kwargs):
     """Plot formated albedo spectrum
 
     Parameters
@@ -166,14 +166,14 @@ def spectrum(xarray, yarray,legend=None,wno_to_micron=True, palette = Colorblind
             if isinstance(legend,type(None)): legend=[None]*len(xarray[0])
             for w, a,i,l in zip(xarray, yarray, range(len(xarray)), legend):
                 if l == None: 
-                    fig.line(conv(w),  a,  color=palette[np.mod(i, len(palette))], line_width=3)
+                    fig.line(conv(w),  a,  color=palette[np.mod(i+color_indx, len(palette))], line_width=3)
                 else:
-                    fig.line(conv(w), a, legend_label=l, color=palette[np.mod(i, len(palette))], line_width=3)
+                    fig.line(conv(w), a, legend_label=l, color=palette[np.mod(i+color_indx, len(palette))], line_width=3)
         else: 
             if isinstance(legend,type(None)):
-                fig.line(conv(xarray), yarray,  color=palette[i], line_width=3)
+                fig.line(conv(xarray), yarray,  color=palette[i+color_indx], line_width=3)
             else:
-                fig.line(conv(xarray), yarray, legend_label=legend, color=palette[i], line_width=3)
+                fig.line(conv(xarray), yarray, legend_label=legend, color=palette[i+color_indx], line_width=3)
         i = i+1
 
     plot_format(fig)

@@ -1331,7 +1331,7 @@ class inputs():
 
     def virga(self, condensates, directory,
         fsed=1, mh=1, mmw=2.2,kz_min=1e5,sig=2, full_output=False,
-        b=1, param='const'): 
+        b=1, param='const', cap_opd=None): 
         """
         Runs virga cloud code based on the PT and Kzz profiles 
         that have been added to inptus class.
@@ -1341,11 +1341,20 @@ class inputs():
         condensates : str 
             Condensates to run in cloud model 
         fsed : float 
-            Sedimentation efficiency 
+            Sedimentation efficiency coefficient
         mh : float 
             Metallicity 
         mmw : float 
             Atmospheric mean molecular weight  
+        kz_min : float
+            Minimum kzz value
+        sig : float 
+            Width of the log normal distribution for the particle sizes 
+        b : float
+            Sedimentation efficiency exponent (if param=exp or pow)
+        param : str
+            fsed parameterisation
+            'const' (constant), 'exp' (exponential density derivation), 'pow' (power-law)
         """
         
         cloud_p = vj.Atmosphere(condensates,fsed=fsed,mh=mh,
@@ -1364,7 +1373,7 @@ class inputs():
         
         cloud_p.ptk(df =df, kz_min = kz_min)
         out = vj.compute(cloud_p, as_dict=full_output,
-                          directory=directory)
+                          directory=directory, cap_opd=cap_opd)
 
         if not full_output:
             opd, w0, g0 = out
