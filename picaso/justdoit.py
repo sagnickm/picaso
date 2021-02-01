@@ -1331,7 +1331,7 @@ class inputs():
 
     def virga(self, condensates, directory,
         fsed=1, mh=1, mmw=2.2,kz_min=1e5,sig=2, full_output=False,
-        b=1, param='const', cap_opd=None): 
+        b=1, eps=1e-2, param='const', cap_opd=None): 
         """
         Runs virga cloud code based on the PT and Kzz profiles 
         that have been added to inptus class.
@@ -1358,7 +1358,7 @@ class inputs():
         """
         
         cloud_p = vj.Atmosphere(condensates,fsed=fsed,mh=mh,
-                 mmw = mmw, sig =sig, b=b, param=param) 
+                 mmw = mmw, sig =sig, b=b, eps=eps, param=param) 
 
         if 'kz' not in self.inputs['atmosphere']['profile'].keys():
             raise Exception ("Must supply kz to atmosphere/chemistry DataFrame, \
@@ -1373,7 +1373,7 @@ class inputs():
         
         cloud_p.ptk(df =df, kz_min = kz_min)
         out = vj.compute(cloud_p, as_dict=full_output,
-                          directory=directory, cap_opd=cap_opd)
+                          directory=directory)
 
         if not full_output:
             opd, w0, g0 = out
