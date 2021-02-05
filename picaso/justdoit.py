@@ -1330,8 +1330,9 @@ class inputs():
             self.inputs['clouds']['profile'] = df
 
     def virga(self, condensates, directory,
-        fsed=1, mh=1, mmw=2.2,kz_min=1e5,sig=2, full_output=False,
-        b=1, eps=1e-2, param='const', cap_opd=None): 
+        fsed=1, b=1, eps=1e-2, param='const', 
+        mh=1, mmw=2.2, kz_min=1e5, sig=2, 
+        full_output=False, Teff=None): 
         """
         Runs virga cloud code based on the PT and Kzz profiles 
         that have been added to inptus class.
@@ -1342,6 +1343,13 @@ class inputs():
             Condensates to run in cloud model 
         fsed : float 
             Sedimentation efficiency coefficient
+        b : float
+            Denominator of exponential in sedimentation efficiency  (if param is 'exp')
+        eps: float
+            Minimum value of fsed function (if param=exp)
+        param : str
+            fsed parameterisation
+            'const' (constant), 'exp' (exponential density derivation), 'pow' (power-law)
         mh : float 
             Metallicity 
         mmw : float 
@@ -1350,11 +1358,8 @@ class inputs():
             Minimum kzz value
         sig : float 
             Width of the log normal distribution for the particle sizes 
-        b : float
-            Sedimentation efficiency exponent (if param=exp or pow)
-        param : str
-            fsed parameterisation
-            'const' (constant), 'exp' (exponential density derivation), 'pow' (power-law)
+        Teff : float, optional
+            Effective temperature. If None, Teff set to temperature at 1 bar
         """
         
         cloud_p = vj.Atmosphere(condensates,fsed=fsed,mh=mh,
@@ -1371,7 +1376,7 @@ class inputs():
         cloud_p.gravity(gravity=self.inputs['planet']['gravity'],
                  gravity_unit=u.Unit(self.inputs['planet']['gravity_unit']))#
         
-        cloud_p.ptk(df =df, kz_min = kz_min)
+        cloud_p.ptk(df =df, kz_min = kz_min, Teff = Teff)
         out = vj.compute(cloud_p, as_dict=full_output,
                           directory=directory)
 
