@@ -1332,7 +1332,7 @@ class inputs():
     def virga(self, condensates, directory,
         fsed=1, b=1, eps=1e-2, param='const', 
         mh=1, mmw=2.2, kz_min=1e5, sig=2, 
-        full_output=False, Teff=None): 
+        full_output=False, Teff=None, alpha_pressure=None, supsat=0): 
         """
         Runs virga cloud code based on the PT and Kzz profiles 
         that have been added to inptus class.
@@ -1363,7 +1363,7 @@ class inputs():
         """
         
         cloud_p = vj.Atmosphere(condensates,fsed=fsed,mh=mh,
-                 mmw = mmw, sig =sig, b=b, eps=eps, param=param) 
+                 mmw = mmw, sig =sig, b=b, eps=eps, param=param, supsat=supsat) 
 
         if 'kz' not in self.inputs['atmosphere']['profile'].keys():
             raise Exception ("Must supply kz to atmosphere/chemistry DataFrame, \
@@ -1376,7 +1376,7 @@ class inputs():
         cloud_p.gravity(gravity=self.inputs['planet']['gravity'],
                  gravity_unit=u.Unit(self.inputs['planet']['gravity_unit']))#
         
-        cloud_p.ptk(df =df, kz_min = kz_min, Teff = Teff)
+        cloud_p.ptk(df =df, kz_min = kz_min, Teff = Teff, alpha_pressure = alpha_pressure)
         out = vj.compute(cloud_p, as_dict=full_output,
                           directory=directory)
 
