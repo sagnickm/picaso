@@ -92,7 +92,7 @@ def flux_get_reflected_1d(nlevel, wno,nwno, numg,numt, dtau, tau, w0, cosb,gcos2
         0 for tridiagonal, 1 for pentadiagonal
     
     calc_type : int 
-        'forward' for forward model (only outgoing flux), 'climate' for fluxes at all levels and layers
+        0 for forward model (only outgoing flux), 1 for fluxes at all levels and layers
     Returns
     -------
     intensity at the top of the atmosphere for all the different ubar1 and ubar2 
@@ -110,7 +110,7 @@ def flux_get_reflected_1d(nlevel, wno,nwno, numg,numt, dtau, tau, w0, cosb,gcos2
     ################################################
     #################### --SM-- DELTA eddington options are not here-- adding them
     ################################################
-    if calc_type == "climate" :
+    if calc_type == 1 :
 
         
         
@@ -443,7 +443,7 @@ def flux_get_reflected_1d(nlevel, wno,nwno, numg,numt, dtau, tau, w0, cosb,gcos2
             
 
         return flux_minus_all, flux_plus_all, flux_minus_midpt_all, flux_plus_midpt_all 
-    elif calc_type == "forward" :
+    elif calc_type == 0 :
         xint_at_top = zeros((numg, numt, nwno))
         
         sq3 = sqrt(3.)
