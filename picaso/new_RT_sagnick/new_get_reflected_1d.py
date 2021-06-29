@@ -112,17 +112,7 @@ def flux_get_reflected_1d(nlevel, wno,nwno, numg,numt, dtau, tau, w0, cosb,gcos2
     ################################################
     if calc_type == "climate" :
 
-        delta_approx=0
-    #### --SM-- formulas from https://arxiv.org/pdf/1904.09355.pdf
-        if delta_approx == 1 :
-            dtau=dtau*(1.-w0*cosb**2)
-            tau[0]=tau[0]*(1.-w0[0]*cosb[0]**2)
-            for i in range(nlayer):
-                tau[i+1]=tau[i]+dtau[i]
         
-    ##### --SM-- need to correct the tau arrays first and the w0 and cosb arrays later
-            w0=w0*((1.-cosb**2)/(1.-w0*(cosb**2)))
-            cosb=cosb/(1.+cosb)
         
         
 
